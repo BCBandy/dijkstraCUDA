@@ -1,0 +1,39 @@
+srun --time=00:01:00 --mem=4096 --nodes=1 --ntasks=4 --gres=gpu:1 --pty /bin/bash
+srun -n 1 -p devgpu -A cis4930-gpu --gres=gpu:1 -t 00:03:00 --pty /bin/bash
+
+load cuda:
+module load apps/cuda/6.5.14
+
+compile:
+nvcc SDH.cu -o SDH
+nvcc proj2.cu -o proj2
+
+run code:
+./SDH 10000 500.0
+./proj2 10000 500.0
+
+________________________________________________________________________________________________
+
+module load apps/cuda/6.5.14 &&
+nvcc proj1-bandy.cu -o proj1-bandy &&
+./proj1-bandy 10000 500.0 512
+
+
+project 2 - one line compile/run
+
+srun -n 1 -p devgpu -A cis4930-gpu --gres=gpu:1 -t 00:03:00 --pty /bin/bash
+
+module load apps/cuda/6.5.14 &&
+nvcc proj2-bandy.cu -o proj2-bandy &&
+./proj2-bandy 10000 500.0 512
+
+____________________________________________________________________________________________________
+
+gcc 3dMazeSolver.c -o proj3 &&
+./proj3 3
+
+srun -n 1 -p devgpu -A cis4930-gpu --gres=gpu:1 -t 00:05:00 --pty /bin/bash
+
+module load apps/cuda/6.5.14 &&
+nvcc 3dMazeSolverFin.cu -o proj3 &&
+./proj3 3 3 500 5 1024
